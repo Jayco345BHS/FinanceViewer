@@ -4,6 +4,10 @@
  * Vite-specific `?url` suffix.
  */
 import { GlobalWorkerOptions } from 'pdfjs-dist';
-import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+// `?worker&url` gives a URL served with the correct module MIME type and
+// lets Vite bundle the worker properly (plain `?url` makes pdf.js fall back
+// to a "fake worker" that does a runtime import() of the URL, which fails
+// under strict module MIME checking).
+import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?worker&url';
 
 GlobalWorkerOptions.workerSrc = workerUrl;
